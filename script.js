@@ -1,26 +1,75 @@
 const container = document.querySelector(".container");
+const shake = document.querySelector("#shake");
+const adjust = document.querySelector("#adjust");
 
+shake.addEventListener("click", resetAllSquareColors);
+adjust.addEventListener("click", rebuildGrid);
+initializePage();
 
-//Create a row using javascript
+function initializePage() {
+    const defaultGridSize = 50;
+    generateNewGrid(defaultGridSize);
+};
 
-
-
-for (i=0; i<16; i++) {
-    const row = document.createElement("div");
-    row.classList.add("row");
-    container.appendChild(row);
-    for(j=0; j<16; j++) {
-        const square = document.createElement("div");
-        square.classList.add("square");
-        row.appendChild(square);
-    }
+function resetColorEventListeners() {
+    const allSquares = document.querySelectorAll(".square");
+    allSquares.forEach(sqr => {
+        sqr.addEventListener("mouseover", colorInSquare);
+    });
 }
 
+function colorInSquare() {
+    this.classList.add("filled-in");
+};
 
+function resetAllSquareColors() {
+    const allSquares = document.querySelectorAll(".square");
+    allSquares.forEach(sqr => {
+        sqr.classList.remove("filled-in");
+    });
+};
 
+function getUserInput() {
+    return prompt("How many squares per side (Must be between 1 and 100)?");
+}
 
-//Loop through 16 times and append each div
+function rebuildGrid() {
+    const customGridSize = getUserInput();
+    generateNewGrid(customGridSize);
+}
 
-//Add a second loop to loop through 16 rows
+function generateNewGrid(gridSize) {
+    gridSize = Math.floor(gridSize);
+    if (verifyValidGrid(gridSize)) {
+        removeAllChildNodes(container);
+        for (i=0; i<gridSize; i++) {
+            const row = document.createElement("div");
+            row.classList.add("row");
+            container.appendChild(row);
+            for (j=0; j<gridSize; j++) {
+                const square = document.createElement("div");
+                square.classList.add("square");
+                row.appendChild(square);
+            }
+        }
+        resetColorEventListeners();
+    }
+};
 
-//Add css classes to set flexbox properties
+function verifyValidGrid(desiredGridSize) {
+    try {
+        if (isNaN(desiredGridSize)) throw "Must be a number.";
+        if (desiredGridSize < 1 || desiredGridSize > 100) throw "Must be between 1 and 100.";
+    }
+    catch(err) {
+        alert(err);
+        return false;
+    }
+    return true;
+};
+
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    };
+};
