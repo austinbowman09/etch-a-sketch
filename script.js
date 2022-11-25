@@ -1,9 +1,9 @@
-const container = document.querySelector(".container");
+const gridContainer = document.querySelector(".grid-container");
 const shake = document.querySelector("#shake");
 const adjust = document.querySelector("#adjust");
 
 shake.addEventListener("click", resetAllSquareColors);
-adjust.addEventListener("click", rebuildGrid);
+adjust.addEventListener("click", rebuildCustomGrid);
 initializePage();
 
 function initializePage() {
@@ -16,7 +16,7 @@ function resetColorEventListeners() {
     allSquares.forEach(sqr => {
         sqr.addEventListener("mouseover", colorInSquare);
     });
-}
+};
 
 function colorInSquare() {
     this.classList.add("filled-in");
@@ -31,29 +31,29 @@ function resetAllSquareColors() {
 
 function getUserInput() {
     return prompt("How many squares per side (Must be between 1 and 100)?");
-}
+};
 
-function rebuildGrid() {
+function rebuildCustomGrid() {
     const customGridSize = getUserInput();
     generateNewGrid(customGridSize);
-}
+};
 
 function generateNewGrid(gridSize) {
     gridSize = Math.floor(gridSize);
     if (verifyValidGrid(gridSize)) {
-        removeAllChildNodes(container);
+        removeAllChildNodes(gridContainer);
         for (i=0; i<gridSize; i++) {
             const row = document.createElement("div");
             row.classList.add("row");
-            container.appendChild(row);
+            gridContainer.appendChild(row);
             for (j=0; j<gridSize; j++) {
                 const square = document.createElement("div");
                 square.classList.add("square");
                 row.appendChild(square);
-            }
-        }
+            };
+        };
         resetColorEventListeners();
-    }
+    };
 };
 
 function verifyValidGrid(desiredGridSize) {
@@ -64,7 +64,7 @@ function verifyValidGrid(desiredGridSize) {
     catch(err) {
         alert(err);
         return false;
-    }
+    };
     return true;
 };
 
