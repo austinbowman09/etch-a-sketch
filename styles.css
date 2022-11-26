@@ -11,6 +11,7 @@ body {
     border-top-right-radius: 50px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    margin-top: 12px;
 }
 
 .grid-container {
@@ -18,7 +19,7 @@ body {
     height: 300px;
     border-style: solid;
     border-width: 2px;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     margin: 50px 50px 0px;
     display: flex;
     flex-direction: column;

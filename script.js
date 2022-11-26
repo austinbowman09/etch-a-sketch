@@ -14,30 +14,39 @@ function initializePage() {
 function resetColorEventListeners() {
     const allSquares = document.querySelectorAll(".square");
     allSquares.forEach(sqr => {
-        sqr.addEventListener("mouseover", colorInSquare);
+        sqr.addEventListener("mouseover", adjustSquareColor);
     });
 };
 
-function colorInSquare() {
-    this.style.backgroundColor = getRandomColor();
-    console.log(getRandomColor());
+function adjustSquareColor() {
+    const previousSquareColor = this.style.backgroundColor;
+    let newSquareColor;
+    if (previousSquareColor) {
+        newSquareColor = modifyString(previousSquareColor);
+    } else {
+        newSquareColor = "rgb(223,223,223)";
+    };
+    this.style.backgroundColor = newSquareColor;
 };
 
-function getRandomColor() {
-    const red = getRandomNumber();
-    const green = getRandomNumber();
-    const blue = getRandomNumber();
-    return `rgb(${red.toString()},${green.toString()},${blue.toString()})`;
-}
-
-function getRandomNumber() {
-    return Math.floor(Math.random()*255);
-}
+function modifyString(rgbValue) {
+    const openBracket = rgbValue.indexOf("(");
+    const firstComma = rgbValue.indexOf(",");
+    const secondComma = rgbValue.indexOf(",", (firstComma+1));
+    const closeBracket = rgbValue.indexOf(")");
+    const originalRed = rgbValue.substring(openBracket+1,firstComma);
+    const originalGreen = rgbValue.substring(firstComma+2,secondComma);
+    const originalBlue = rgbValue.substring(secondComma+2,closeBracket);
+    const newRed = parseInt(originalRed)-32;
+    const newGreen = parseInt(originalGreen)-32;
+    const newBlue = parseInt(originalBlue)-32;
+    return `rgb(${newRed.toString()},${newGreen.toString()},${newBlue.toString()})`;
+};
 
 function resetAllSquareColors() {
     const allSquares = document.querySelectorAll(".square");
     allSquares.forEach(sqr => {
-        sqr.classList.remove("filled-in");
+        sqr.style.backgroundColor = '';
     });
 };
 
