@@ -19,8 +19,20 @@ function resetColorEventListeners() {
 };
 
 function colorInSquare() {
-    this.classList.add("filled-in");
+    this.style.backgroundColor = getRandomColor();
+    console.log(getRandomColor());
 };
+
+function getRandomColor() {
+    const red = getRandomNumber();
+    const green = getRandomNumber();
+    const blue = getRandomNumber();
+    return `rgb(${red.toString()},${green.toString()},${blue.toString()})`;
+}
+
+function getRandomNumber() {
+    return Math.floor(Math.random()*255);
+}
 
 function resetAllSquareColors() {
     const allSquares = document.querySelectorAll(".square");
